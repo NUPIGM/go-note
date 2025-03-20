@@ -1,4 +1,4 @@
-package main
+package notes
 
 import (
 	"context"
@@ -10,7 +10,7 @@ import (
 // 设定截止时间（WithDeadline）
 // 手动取消（WithCancel）
 // 传递请求范围的元数据（WithValue）
-func main() {
+func Context() {
 	// context上下文
 	ctx, clear := context.WithCancel(context.Background()) //手动取消
 	msg := make(chan int)

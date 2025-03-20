@@ -1,8 +1,17 @@
-package main
+package notes
 
 import "fmt"
 
-func main() {
+func Point() {
+
+	var str string = "字符串"
+	str2 := &str
+	*str2 = "新字符串"
+	str3 := str
+	str3 = "字符串3"
+	fmt.Println(&str, str)
+	fmt.Println(str2, *str2)
+	fmt.Println(&str3, str3)
 	// 普通指针
 	a := "hello"
 	b := &a
@@ -14,8 +23,8 @@ func main() {
 	arrp[3] = 0
 
 	// fmt.Println(arr)
-	var str = "hello"
-	hello(&str)
+	var str4 = "hello"
+	hello(&str4)
 
 }
 

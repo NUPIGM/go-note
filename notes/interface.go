@@ -1,4 +1,4 @@
-package main
+package notes
 
 import "log"
 
@@ -15,7 +15,7 @@ func (c Cat) Eat() {
 
 var L Animal
 
-func main() {
+func Interface() {
 	c := Cat{
 		Name: "Tom",
 	}

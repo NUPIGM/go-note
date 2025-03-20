@@ -1,16 +1,18 @@
-package main
+package notes
 
 import (
 	"fmt"
 )
 
-func main() {
-	// ret1, ret2 := a(1, "a")
-	// fmt.Println(ret1, ret2)
+func Func() {
+	// TODO
 
-	// c := []string{"1", "2", "3"}
-	// b(999, c...)
-	// 延时调用 defer
+	ret1, ret2 := a(1, "a")
+	fmt.Println(ret1, ret2)
+
+	bb := []string{"1", "2", "3"}
+	b(999, bb...)
+	// 延时调用 defer,函数结束才会运行defer
 	defer c()(3)
 	fmt.Println("在3后面")
 

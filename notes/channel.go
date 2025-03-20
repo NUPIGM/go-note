@@ -1,11 +1,13 @@
-package main
+package notes
 
 import (
 	"log"
 	"sync"
 )
 
-func main() {
+func Chan() {
+	chan1()
+	chan2()
 	chan3()
 
 }

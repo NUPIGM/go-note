@@ -1,10 +1,10 @@
-package main
+package notes
 
 import (
 	"log"
 )
 
-func test() {
+func Slice() {
 	// 数组
 	a := [5]int{1, 2, 3, 4}
 	// 切片

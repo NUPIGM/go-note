@@ -1,9 +1,9 @@
-package main
+package notes
 
 import "fmt"
 
 // map数据类型
-func main() {
+func Map() {
 	// 两种创建方法
 	a := map[int]string{}
 	a[1] = "a"

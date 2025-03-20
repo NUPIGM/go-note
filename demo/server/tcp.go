@@ -5,7 +5,7 @@ import (
 	"net"
 )
 
-func main() {
+func tcp() {
 	tcpAddr, _ := net.ResolveTCPAddr("tcp", ":8080")
 	listen, _ := net.ListenTCP("tcp", tcpAddr)
 	for {
