@@ -1,134 +1,99 @@
 package main
 
 import (
-	"database/sql"
-	"encoding/json"
 	"fmt"
-	"log"
-	"net/http"
-	"time"
-
-	"github.com/golang-jwt/jwt/v5"
-	_ "github.com/mattn/go-sqlite3"
+	"os"
 )
 
-// 连接数据库
-func initDB() *sql.DB {
-	db, err := sql.Open("sqlite3", "./users.db")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// 创建用户表
-	createTable := `
-	CREATE TABLE IF NOT EXISTS users (
-		id INTEGER PRIMARY KEY AUTOINCREMENT,
-		username TEXT UNIQUE NOT NULL,
-		password TEXT NOT NULL
-	);
-	`
-	_, err = db.Exec(createTable)
-	if err != nil {
-		log.Fatal("Error creating users table:", err)
-	}
-
-	fmt.Println("Database initialized.")
-	return db
-}
-
-// 用户注册
-func registerUser(db *sql.DB, username, password string) error {
-	_, err := db.Exec("INSERT INTO users (username, password) VALUES (?, ?)", username, password)
-	return err
-}
-
-// 获取用户信息
-func getUser(db *sql.DB, username string) (string, error) {
-	var password string
-	err := db.QueryRow("SELECT password FROM users WHERE username = ?", username).Scan(&password)
-	return password, err
-}
-
-// JWT 密钥
-var jwtSecret = []byte("your_secret_key")
-
-// 连接数据库
-var db = initDB()
-
-// 生成 JWT 令牌
-func generateJWT(username string) (string, error) {
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"username": username,
-		"exp":      time.Now().Add(time.Hour * 1).Unix(),
-	})
-	return token.SignedString(jwtSecret)
-}
-
-// 用户注册
-func registerHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
-		http.Error(w, "Only POST is allowed", http.StatusMethodNotAllowed)
-		return
-	}
-
-	var credentials struct {
-		Username string `json:"username"`
-		Password string `json:"password"`
-	}
-	if err := json.NewDecoder(r.Body).Decode(&credentials); err != nil {
-		http.Error(w, "Invalid JSON", http.StatusBadRequest)
-		return
-	}
-
-	// 存入数据库
-	err := registerUser(db, credentials.Username, credentials.Password)
-	if err != nil {
-		http.Error(w, "User already exists", http.StatusConflict)
-		return
-	}
-
-	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(map[string]string{"message": "User registered successfully!"})
-}
-
-// 用户登录
-func loginHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
-		http.Error(w, "Only POST is allowed", http.StatusMethodNotAllowed)
-		return
-	}
-
-	var credentials struct {
-		Username string `json:"username"`
-		Password string `json:"password"`
-	}
-	if err := json.NewDecoder(r.Body).Decode(&credentials); err != nil {
-		http.Error(w, "Invalid JSON", http.StatusBadRequest)
-		return
-	}
-
-	// 查询用户
-	storedPassword, err := getUser(db, credentials.Username)
-	if err != nil || storedPassword != credentials.Password {
-		http.Error(w, "Invalid username or password", http.StatusUnauthorized)
-		return
-	}
-
-	// 生成 JWT
-	token, err := generateJWT(credentials.Username)
-	if err != nil {
-		http.Error(w, "Error generating token", http.StatusInternalServerError)
-		return
-	}
-
-	json.NewEncoder(w).Encode(map[string]string{"token": token})
-}
+/**
+ * Auto-generated code below aims at helping you parse
+ * the standard input according to the problem statement.
+ **/
 
 func main() {
-	mux := http.NewServeMux()
-	mux.HandleFunc("/api/register", registerHandler)
-	mux.HandleFunc("/api/login", loginHandler)
+	// W: width of the building.
+	// H: height of the building.
+	var W, H int
+	fmt.Scan(&W, &H)
 
-	fmt.Println("Server running on port 8080...")
-	http.ListenAndServe(":8080", mux)
+	// N: maximum number of turns before game over.
+	var N int
+	fmt.Scan(&N)
+
+	var X0, Y0 int
+	fmt.Scan(&X0, &Y0)
+	var x int = 0
+	var y int = 0
+	for {
+		// bombDir: the direction of the bombs from batman's current location (U, UR, R, DR, D, DL, L or UL)
+		var bombDir string
+		fmt.Scan(&bombDir)
+
+		// 第一象限
+		if bombDir == "UR" || bombDir == "R" {
+			if bombDir == "R" {
+				r := W - X0
+				x = count(r) + X0
+			}
+			r := W - X0
+			x = count(r) + X0
+			u := Y0
+			y = count(u)
+		}
+		// 第二象限
+		if bombDir == "UL" || bombDir == "U" {
+			if bombDir == "U" {
+				u := Y0
+				y = count(u)
+			}
+			u := Y0
+			y = count(u)
+			r := X0
+			x = count(r)
+		}
+		// 第三象限
+		if bombDir == "DL" || bombDir == "L" {
+			if bombDir == "L" {
+				r := X0
+				x = count(r)
+			}
+			r := X0
+			x = count(r)
+			u := H - Y0
+			y = count(u) + Y0
+		}
+		// 第四象限
+		if bombDir == "DR" || bombDir == "D" {
+			if bombDir == "D" {
+				u := H - Y0
+				y = count(u) + Y0
+			}
+			u := H - Y0
+			y = count(u) + Y0
+			r := W - X0
+			x = count(r) + X0
+		}
+
+		// fmt.Fprintln(os.Stderr, "Debug messages...")
+		fmt.Fprintln(os.Stderr, N)
+		fmt.Fprintln(os.Stderr, W, H)
+		fmt.Fprintln(os.Stderr, X0, Y0)
+		fmt.Fprintln(os.Stderr, bombDir)
+		// the location of the next window Batman should jump to.
+		fmt.Println(x, y)
+		X0 = x
+		Y0 = y
+	}
+}
+
+func count(i int) (v int) {
+	if i > 1 {
+		v = i / 2
+	} else if i == 1 {
+		v = 0
+	} else {
+		v = i
+	}
+
+	return
 }
