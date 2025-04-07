@@ -127,6 +127,7 @@ func protectedHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(map[string]string{"message": "You have accessed a protected route!"})
 }
 func main() {
+	InitDB()
 
 	mux := http.NewServeMux()
 	// 绑定路由

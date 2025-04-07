@@ -4,15 +4,19 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"time"
 )
 
 // 连接数据库
-func InitDB() *sql.DB {
-	db, err := sql.Open("sqlite3", "./users.db")
+func InitDB() {
+	db, err := sql.Open("mysql", "root14:nH5QmLpwRKK8Jc6q@tcp(mysql2.sqlpub.com:3307)/root01")
 	if err != nil {
 		log.Fatal(err)
 	}
-
+	db.SetMaxOpenConns(25)                 // 设置最大打开的连接数
+	db.SetMaxIdleConns(10)                 // 设置最大空闲连接数
+	db.SetConnMaxLifetime(5 * time.Minute) // 设置连接的最大生命周期
+	defer db.Close()
 	// 创建 users 表，添加 role 字段
 	query := `CREATE TABLE IF NOT EXISTS users (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -26,7 +30,6 @@ func InitDB() *sql.DB {
 	}
 
 	fmt.Println("Database initialized.")
-	return db
 }
 
 // 获取用户信息

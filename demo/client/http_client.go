@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-func main() {
+func mymain() {
 	client := new(http.Client)
 	req, _ := http.NewRequest("POST", "http://127.0.0.1:8080/test", bytes.NewBuffer([]byte("我是客户端"))) // post请求体 reader类型
 	// 写个请求头
