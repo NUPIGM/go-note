@@ -5,6 +5,6 @@ import (
 	"testing"
 )
 
-func TestExample(t *testing.T) {
-	notes.Typeto()
+func TestInerface(t *testing.T) {
+	notes.Interface()
 }

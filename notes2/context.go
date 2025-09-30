@@ -1,4 +1,4 @@
-package notes
+package notes2
 
 import (
 	"context"

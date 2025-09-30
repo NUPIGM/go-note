@@ -1,4 +1,4 @@
-package notes
+package notes2
 
 import (
 	"fmt"
@@ -50,8 +50,75 @@ func Sync() {
 	fmt.Println("复用对象:", obj2)
 }
 
+func Waitting() {
+	var wg sync.WaitGroup
+	for i := 2; i < 100001; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			for j := 2; j < i; j++ {
+				if i%j == 0 {
+					return
+				}
+			}
+			fmt.Println(i)
+
+		}()
+	}
+	wg.Wait()
+}
+
+// 协程锁与释放
+func Cond() {
+	var mu sync.Mutex
+	cond := sync.NewCond(&mu)
+	for i := 0; i < 15; i++ {
+		go func() {
+			cond.L.Lock()
+			cond.Wait()
+			fmt.Println(".")
+			cond.L.Unlock()
+		}()
+
+	}
+	for i := 0; i < 10; i++ {
+		time.Sleep(time.Millisecond * 200)
+		if i == 4 {
+			cond.Signal() //单个协程
+		}
+		if i == 9 {
+			cond.Broadcast() //全部协程
+		}
+	}
+}
+func Once() {
+	var once sync.Once
+	var wg sync.WaitGroup
+	for range 10 {
+		wg.Add(1)
+		go func() {
+			fmt.Println("*")
+			once.Do(func() {
+				fmt.Println("只被打印一次")
+			})
+			defer wg.Done()
+		}()
+	}
+	wg.Wait()
+}
+func Map() {
+	var m sync.Map
+	m.Store(1, "a")
+	m.Store(2, "b")
+	m.Store(3, "c")
+	m.Range(func(key, value any) bool {
+		fmt.Println(key, value)
+		return true
+	})
+}
+
 // 锁
-func Mux() {
+func RWMux() {
 
 	var wg sync.WaitGroup
 	wg.Add(10)
@@ -72,6 +139,32 @@ func Mux() {
 	wg.Wait()
 
 }
+
+// sync.Mutex
+func CountMutex() {
+	var c int
+	var mu sync.Mutex
+
+	for i := 2; i < 100001; i++ {
+		go func() {
+
+			for j := 2; j < i; j++ {
+				if i%j == 0 {
+					return
+				}
+			}
+			fmt.Printf("%v\t", i)
+			mu.Lock()
+			c++
+			mu.Unlock()
+
+		}()
+	}
+	time.Sleep(time.Second * 3)
+
+	fmt.Println("总数", c)
+}
+
 func lockFun(lock *sync.RWMutex, wg *sync.WaitGroup) {
 	// 阻塞
 	lock.Lock()

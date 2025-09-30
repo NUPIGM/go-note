@@ -5,6 +5,6 @@ import (
 	"testing"
 )
 
-func TestSync(t *testing.T) {
-	notes.Mux()
+func TestSlice(t *testing.T) {
+	notes.Slice()
 }

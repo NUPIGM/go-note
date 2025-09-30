@@ -1,6 +1,8 @@
 package notes
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func Point() {
 

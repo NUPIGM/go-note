@@ -5,7 +5,7 @@ import (
 )
 
 func Func() {
-	// TODO
+	// [TODO]
 
 	ret1, ret2 := a(1, "a")
 	fmt.Println(ret1, ret2)

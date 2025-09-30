@@ -5,7 +5,6 @@ import "fmt"
 func Struct() {
 	// 第一种申明方法
 	var qm User
-	fmt.Println(qm)
 	qm.name = "qimiao"
 	qm.age = 19
 	qm.hobby = []string{"唱", "跳"}

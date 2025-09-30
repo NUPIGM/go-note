@@ -1,11 +1,11 @@
-package notes_test
+package notes2_test
 
 import (
-	"main/notes"
+	"main/notes2"
 	"testing"
 )
 
 func TestJson(t *testing.T) {
-	notes.Json()
+	notes2.Json()
 
 }

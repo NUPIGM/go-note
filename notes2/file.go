@@ -1,7 +1,8 @@
-package notes
+package notes2
 
 import (
 	"bufio"
+	"fmt"
 	"os"
 )
 
@@ -12,4 +13,8 @@ func File() {
 
 	bufio.NewReader(f)
 
+}
+func Status() {
+	info, _ := os.Stat("./file.go")
+	fmt.Println(info.Size(), info.Name(), info.Mode())
 }
