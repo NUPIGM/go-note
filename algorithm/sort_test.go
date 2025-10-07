@@ -3,37 +3,15 @@ package algorithm_test
 import (
 	"fmt"
 	"main/algorithm"
-	"math/rand"
-	"sync"
 	"testing"
-	"time"
 )
 
-func randArray(n int) []int {
-	var array []int
-	var wg sync.WaitGroup
-	for i := range n + 1 {
-		wg.Add(1)
-		go func() {
-			array = append(array, i)
-			wg.Done()
-		}()
-	}
-	wg.Wait()
-	return array
-}
-func randNum(n int) []int {
-	var arr []int = make([]int, n)
-	seedNum := time.Now().UnixNano()
-	for i := range n {
-		rand.Seed(seedNum)
-		arr[i] = rand.Intn(n + 1)
-		seedNum++
-	}
-	return arr
+func TestWishPock(t *testing.T) {
+	s := algorithm.WishPock([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10})
+	fmt.Println(s)
 }
 func TestBubbleSort(t *testing.T) {
-	num := randArray(100)
+	num := algorithm.RandArray(35)
 	fmt.Println(num)
 	algorithm.SelectionSort(num)
 	fmt.Println(num)

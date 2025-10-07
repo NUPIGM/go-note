@@ -1,9 +1,8 @@
 package main
 
-import (
-	"main/notes2"
-)
+import "main/demo/db"
 
 func main() {
-	notes2.CmdArgs()
+	db.LeveldbBasic()
+
 }

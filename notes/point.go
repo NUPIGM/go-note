@@ -29,6 +29,9 @@ func Point() {
 	hello(&str4)
 
 }
+func PointDirect() {
+
+}
 
 // 指针传参
 func hello(str *string) {

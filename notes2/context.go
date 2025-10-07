@@ -12,13 +12,13 @@ import (
 // 传递请求范围的元数据（WithValue）
 func Context() {
 	// context上下文
-	ctx, clear := context.WithCancel(context.Background()) //手动取消
+	ctx, cancel := context.WithCancel(context.Background()) //手动取消
 	msg := make(chan int)
 	go son(ctx, msg)
 	for i := 0; i < 10; i++ {
 		msg <- i
 	}
-	clear()
+	cancel()
 	time.Sleep(time.Second)
 	fmt.Println("主进程结束了")
 }
